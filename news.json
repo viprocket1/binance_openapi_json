@@ -1,0 +1,111 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a news API",
+    "version": "1.0.0",
+    "title": "Simple news API",
+    "contact": {
+      "email": "you@your-company.com"
+    },
+    "license": {
+      "name": "address: https://devz.inobi.kg:8000/v1/news/category/2",
+      "url": "https://devz.inobi.kg:8000/v1/news/category/2"
+    }
+  },
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/backend_interns/news_aggr_news_of_particular_category_api/1.0.0",
+  "tags": [
+    {
+      "name": "developers",
+      "description": "Operations available to regular developers"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/news": {
+      "get": {
+        "tags": [
+          "developers"
+        ],
+        "summary": "searches news",
+        "description": "By passing in the appropriate options, you can search for\navailable news in the system\n",
+        "operationId": "searchInventory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "pass an optional search string for looking up inventory",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "number of records to skip for pagination",
+            "required": false,
+            "type": "integer",
+            "minimum": 0,
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of records to return",
+            "required": false,
+            "type": "integer",
+            "maximum": 50,
+            "minimum": 0,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/news"
+              }
+            }
+          },
+          "400": {
+            "description": "bad input parameter"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "news": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "example": "13"
+        },
+        "title": {
+          "type": "string",
+          "example": "Some news"
+        },
+        "categories": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2"
+        },
+        "source": {
+          "type": "string",
+          "example": "1"
+        }
+      }
+    }
+  }
+}
