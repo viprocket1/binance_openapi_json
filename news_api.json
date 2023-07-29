@@ -1,0 +1,209 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "News",
+    "description": "API to get news",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/trogan/News/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "security": [
+    {
+      "BasicAuth": []
+    }
+  ],
+  "paths": {
+    "/news": {
+      "get": {
+        "description": "Returns a list of news iteams",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limits the number of items on a page",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Specifies the page number of news items to be displayed",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned a list of news items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NewsItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/latest": {
+      "get": {
+        "description": "get the latest news item that was added",
+        "responses": {
+          "200": {
+            "description": "Successfully returned the latest news item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/pinned": {
+      "get": {
+        "description": "get a news item that was pinned",
+        "responses": {
+          "200": {
+            "description": "Successfully returned pinned news item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NewsItem": {
+        "required": [
+          "itemid"
+        ],
+        "type": "object",
+        "properties": {
+          "headline": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "abstract": {
+            "type": "string"
+          },
+          "media_url": {
+            "type": "string"
+          },
+          "itemid": {
+            "type": "integer"
+          },
+          "pinned": {
+            "type": "boolean"
+          }
+        }
+      },
+      "inline_response_400": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "400Error": {
+        "description": "Invalid request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/inline_response_400"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "PageLimit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Limits the number of items on a page",
+        "required": false,
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "PageOffset": {
+        "name": "offset",
+        "in": "query",
+        "description": "Specifies the page number of news items to be displayed",
+        "required": false,
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}
