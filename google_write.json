@@ -1,13 +1,13 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Google Sheets Writer API",
+    "title": "Google Sheets Writer and Reader API",
     "version": "1.0.0",
-    "description": "An API to write data to Google Sheets."
+    "description": "An API to write and read data from Google Sheets."
   },
   "servers": [
     {
-      "url": "http://truthfulweirdsolidstatedrive.joshvaarkman.repl.co/"
+      "url": "http://localhost:3000"
     }
   ],
   "paths": {
@@ -70,6 +70,71 @@
                           "type": "integer"
                         }
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readFromSheet": {
+      "get": {
+        "summary": "Read data from a Google Sheet",
+        "description": "Returns an array of data from the Google Sheet.",
+        "parameters": [
+          {
+            "name": "range",
+            "in": "query",
+            "description": "The range in the sheet to read data from. Example: 'A1:B10'.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful read operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Range not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
                     }
                   }
                 }
