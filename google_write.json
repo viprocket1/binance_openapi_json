@@ -7,30 +7,36 @@
   },
   "servers": [
     {
-      "url": "http://truthfulweirdsolidstatedrive.joshvaarkman.repl.co/"
+      "url": "http://localhost:3000"
     }
   ],
-  "paths": {
+   "paths": {
     "/writeToSheet": {
       "post": {
-        "summary": "Write data to a Google Sheet",
-        "description": "Accepts an array of data to be written to the Google Sheet.",
+        "summary": "Write to a Google Sheet",
+        "operationId": "writeToSheet",
+        "tags": ["Sheets"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "data"
-                ],
+                "required": ["range", "data"],
                 "properties": {
+                  "range": {
+                    "type": "string",
+                    "description": "The range in the sheet to start writing from."
+                  },
                   "data": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
                     },
-                    "description": "The data to be written to the sheet."
+                    "description": "Array of rows to be appended to the sheet."
                   }
                 }
               }
@@ -39,36 +45,22 @@
         },
         "responses": {
           "200": {
-            "description": "Successful write operation",
+            "description": "Successfully written to the sheet",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "spreadsheetId": {
-                      "type": "string"
-                    },
-                    "tableRange": {
-                      "type": "string"
-                    },
+                    "spreadsheetId": { "type": "string" },
+                    "tableRange": { "type": "string" },
                     "updates": {
                       "type": "object",
                       "properties": {
-                        "spreadsheetId": {
-                          "type": "string"
-                        },
-                        "updatedRange": {
-                          "type": "string"
-                        },
-                        "updatedRows": {
-                          "type": "integer"
-                        },
-                        "updatedColumns": {
-                          "type": "integer"
-                        },
-                        "updatedCells": {
-                          "type": "integer"
-                        }
+                        "spreadsheetId": { "type": "string" },
+                        "updatedRange": { "type": "string" },
+                        "updatedRows": { "type": "integer" },
+                        "updatedColumns": { "type": "integer" },
+                        "updatedCells": { "type": "integer" }
                       }
                     }
                   }
@@ -76,20 +68,11 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request - range or data might be missing."
+          },
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
