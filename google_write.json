@@ -1,0 +1,98 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Google Sheets Writer API",
+    "version": "1.0.0",
+    "description": "An API to write data to Google Sheets."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/writeToSheet": {
+      "post": {
+        "summary": "Write data to a Google Sheet",
+        "description": "Accepts an array of data to be written to the Google Sheet.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "The data to be written to the sheet."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful write operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "spreadsheetId": {
+                      "type": "string"
+                    },
+                    "tableRange": {
+                      "type": "string"
+                    },
+                    "updates": {
+                      "type": "object",
+                      "properties": {
+                        "spreadsheetId": {
+                          "type": "string"
+                        },
+                        "updatedRange": {
+                          "type": "string"
+                        },
+                        "updatedRows": {
+                          "type": "integer"
+                        },
+                        "updatedColumns": {
+                          "type": "integer"
+                        },
+                        "updatedCells": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
